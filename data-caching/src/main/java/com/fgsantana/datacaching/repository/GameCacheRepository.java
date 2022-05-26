@@ -16,23 +16,23 @@ public class GameCacheRepository {
     final String hashKey = "games";
 
 
-    public void saveGame(Game game){
-        redisTemplate.opsForHash().putIfAbsent(hashKey, game.getId(), game);
+    public boolean save(final Game game){
+       return redisTemplate.opsForHash().putIfAbsent(hashKey, game.getId(), game);
     }
 
-    public Game findGameById(Integer id){
+    public Game findGameById(final Integer id){
         return (Game) redisTemplate.opsForHash().get(hashKey, id);
     }
 
-    public void updateGame(Game game){
+    public void updateGame(final Game game){
         redisTemplate.opsForHash().put(hashKey, game.getId(), game);
     }
 
-    public void deleteGameById(Integer id){
+    public void deleteGameById(final Integer id){
         redisTemplate.opsForHash().delete(hashKey,id);
     }
 
-    public void saveGames(Map<Integer, Game> games){
+    public void saveGames(final Map<Integer, Game> games){
         redisTemplate.opsForHash().putAll(hashKey,games);
     }
 
